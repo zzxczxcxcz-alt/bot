@@ -1,4 +1,5 @@
-from asyncio.log import logger
+from asyncio.log
+import logger # type: ignore
 import datetime
 from sqlite3 import Cursor
 import types

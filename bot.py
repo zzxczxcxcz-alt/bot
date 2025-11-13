@@ -4,6 +4,26 @@ from aiogram.filters import Command
 import asyncio
 import io
 import sqlite3
+import datetime
+from sqlite3 import Cursor
+import types
+import logging
+from aiogram import Bot, Dispatcher, executor, types
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+import datetime
+import re
+import matplotlib.pyplot as plt
+from aiogram import types
+from aiogram.fsm.context import FSMContext
+from db.database import cursor, conn # type: ignore
+from fsm.states import Registration # type: ignore
+from ui.keyboards import get_main_keyboard # type: ignore
+from handlers import router # type: ignore # type: ignore
+import csv
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters import Command
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+
 # Конфигурация
 BOT_TOKEN = "8137628454:AAEUPW8fKH3Jg7Edl47gME46MHEENk6RFZQ"
 ADMIN_ID = 5559465220  # Ваш ID в Telegram
@@ -12,9 +32,7 @@ ADMIN_ID = 5559465220  # Ваш ID в Telegram
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
-# Хранилище данных (временное, лучше использовать БД)
-students = []
-
+# Хранилище данных (временное, лучше использовать БД
 def parse_file(file_content: bytes, file_type: str) -> list:
     """Парсинг CSV/Excel файла и возвращение списка студентов"""
     try:
@@ -62,16 +80,16 @@ async def handle_file(message: types.Message):
         required_columns = ['name', 'group', 'student_id']
         for row in parsed_data:
             if all(col in row for col in required_columns):
-                students.append({
+                students.append({ # type: ignore
                     'name': row['name'],
                     'group': row['group'],
                     'student_id': row['student_id']
                 })
 
-        await message.answer(f"Успешно импортировано {len(students)} студентов")
+        await message.answer(f"Успешно импортировано {len(students)} студентов") # type: ignore
         
         # Вывод первых 5 записей для проверки
-        preview = "\n".join([f"{s['name']} - {s['group']}" for s in students[:5]])
+        preview = "\n".join([f"{s['name']} - {s['group']}" for s in students[:5]]) # type: ignore
         await message.answer(f"Первые записи:\n{preview}")
 
     except Exception as e:
